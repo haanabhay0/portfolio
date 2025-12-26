@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhay Kumar Prajapati | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #6366f1; --bg: #ffffff; --card: #f8fafc;
+            --text: #0f172a; --text-dim: #64748b; --border: #e2e8f0; --leetcode: #ffa116;
+        }
+
+        [data-theme="dark"] {
+            --primary: #818cf8; --bg: #020617; --card: #0f172a;
+            --text: #f1f5f9; --text-dim: #94a3b8; --border: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: background 0.3s, color 0.3s; }
+        body { background-color: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: var(--bg); border-bottom: 1px solid var(--border);
+            padding: 15px 0;
+        }
+        .nav-content { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; padding: 0 20px; align-items: center; }
+        .nav-links a { text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.9rem; margin-left: 25px; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+        .section-title { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); margin-bottom: 15px; display: block; }
+        h2 { font-size: 2.5rem; margin-bottom: 40px; letter-spacing: -1px; }
+
+        /* --- Hero --- */
+        .hero { min-height: 80vh; display: flex; align-items: center; gap: 60px; padding-top: 100px; }
+        .hero-text { flex: 1; }
+        .profile-img { 
+            width: 320px; height: 320px; border-radius: 40px; object-fit: cover; 
+            border: 2px solid var(--primary); box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.25);
+        }
+
+        /* --- Social Buttons --- */
+        .hero-links { display: flex; gap: 12px; margin-top: 25px; flex-wrap: wrap; }
+        .hero-link-btn {
+            display: flex; align-items: center; gap: 8px; text-decoration: none;
+            padding: 10px 18px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--card); color: var(--text); font-weight: 600; font-size: 0.85rem;
+        }
+        .hero-link-btn:hover { border-color: var(--primary); transform: translateY(-3px); background: var(--bg); }
+
+        /* --- LeetCode Dashboard --- */
+        .leetcode-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 30px; background: var(--card); padding: 30px; border-radius: 25px; border: 1px solid var(--border); margin-top: 20px; }
+        .lc-stat-circle { width: 120px; height: 120px; border-radius: 50%; border: 8px solid var(--border); display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        .lc-bars { display: flex; flex-direction: column; gap: 15px; justify-content: center; }
+        .lc-progress { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+        .lc-fill { height: 100%; border-radius: 4px; }
+
+        /* --- Triple Gallery Grid --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+        .gallery-item { border-radius: 15px; overflow: hidden; height: 200px; border: 1px solid var(--border); position: relative; cursor: pointer; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+        .gallery-overlay { position: absolute; inset: 0; background: rgba(99, 102, 241, 0.95); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; color: white; transition: 0.3s; }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        /* --- Slide Overlays --- */
+        .slide-overlay {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100%;
+            background: var(--bg); z-index: 2000; transition: 0.6s cubic-bezier(0.77, 0, 0.175, 1);
+            overflow-y: auto; padding: 80px 20px;
+        }
+        .slide-overlay.active { right: 0; }
+        .close-slide { position: absolute; top: 30px; right: 30px; font-size: 2rem; cursor: pointer; color: var(--primary); }
+
+        .detail-card {
+            background: var(--card); border: 1px solid var(--border);
+            padding: 25px; border-radius: 20px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .tag-pill { background: var(--bg); border: 1px solid var(--border); padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; margin-right: 8px; }
+
+        /* --- Connect Button --- */
+        .btn-connect {
+            position: relative; display: inline-flex; align-items: center; gap: 12px; padding: 18px 45px; 
+            background: var(--primary); color: white; text-decoration: none; font-weight: 800; 
+            border-radius: 50px; font-size: 1.1rem; box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.5); border: none; overflow: hidden;
+        }
+        .btn-connect::after { content: ''; position: absolute; top: -50%; left: -100%; width: 50%; height: 200%; background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent); transform: rotate(45deg); animation: shimmer 4s infinite; }
+        @keyframes shimmer { 100% { left: 200%; } }
+
+        @media (max-width: 850px) {
+            .hero { flex-direction: column-reverse; text-align: center; }
+            .gallery-grid, .leetcode-grid { grid-template-columns: 1fr; }
+            .hero-links { justify-content: center; }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <nav>
+        <div class="nav-content">
+            <div style="font-weight: 800; letter-spacing: -1px;">Welcome<span style="color:var(--primary)">.</span></div>
+            <div class="nav-links">
+                <a href="#about">About</a>
+                <a href="#coding">Coding</a>
+                <a href="#credentials">Credentials</a>
+                <i class="fas fa-moon" id="themeBtn" style="cursor:pointer; margin-left: 20px;"></i>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section id="about" class="hero">
+            <div class="hero-text">
+                <span class="section-title">Computer Science Enthusiast</span>
+                <h1>Hi, I'm <span>Abhay Kumar Prajapti.</span></h1>
+                <p style="font-size: 1.2rem; color: var(--text-dim); max-width: 600px;">
+                    I am a tech enthusiast and student currently exploring the frontiers of <b>Machine Learning</b> and <b>Deep Learning</b>. 
+                    I bridge the gap between intelligent algorithms and user-centric interfaces through <b>Full Stack Development</b>.
+                </p>
+                
+                <div class="hero-links">
+                    <a href="https://github.com/haanabhay0" target="_blank" class="hero-link-btn"><i class="fab fa-github"></i> GitHub</a>
+                    <a href="https://www.linkedin.com/in/abhay-kumar-prajapati-b23068328" target="_blank" class="hero-link-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://leetcode.com/u/DaM1PoZCW4/" target="_blank" class="hero-link-btn"><i class="fas fa-code" style="color:var(--leetcode)"></i> LeetCode</a>
+                    <a href="#" target="_blank" class="hero-link-btn"><i class="fab fa-instagram"></i> Instagram</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://pixabay.com/images/download/random-10035134_1920.jpg" class="profile-img" alt="John Lincon">
+            </div>
+        </section>
+
+        <section id="coding">
+            <span class="section-title">Problem Solving</span>
+            <h2>Coding Dashboard</h2>
+            <div class="leetcode-grid">
+                <div class="lc-stat-circle">
+                    <span style="color:var(--leetcode); font-size: 1.5rem; font-weight: 800;">300+</span>
+                    <p style="font-size: 0.7rem; opacity: 0.6;">SOLVED</p>
+                </div>
+                <div class="lc-bars">
+                    <div style="display: flex; align-items: center; gap: 15px;"><span style="width:60px; font-size:0.8rem;">Easy</span><div class="lc-progress"><div class="lc-fill" style="width: 90%; background: #00b8a3;"></div></div><span style="font-size:0.8rem;">90%</span></div>
+                    <div style="display: flex; align-items: center; gap: 15px; margin: 10px 0;"><span style="width:60px; font-size:0.8rem;">Medium</span><div class="lc-progress"><div class="lc-fill" style="width: 65%; background: #ffc01e;"></div></div><span style="font-size:0.8rem;">65%</span></div>
+                    <div style="display: flex; align-items: center; gap: 15px;"><span style="width:60px; font-size:0.8rem;">Hard</span><div class="lc-progress"><div class="lc-fill" style="width: 30%; background: #ef4743;"></div></div><span style="font-size:0.8rem;">30%</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="credentials">
+            <span class="section-title">Verified Expertise</span>
+            <h2>Certifications and Skills</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="toggleSlide('certSlide')">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=400">
+                    <div class="gallery-overlay"><i class="fas fa-award" style="font-size: 2.5rem;"></i><p style="font-weight: 800; margin-top: 10px;">Certifications</p></div>
+                </div>
+                <div class="gallery-item" onclick="toggleSlide('langSlide')">
+                    <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=400">
+                    <div class="gallery-overlay"><i class="fas fa-terminal" style="font-size: 2.5rem;"></i><p style="font-weight: 800; margin-top: 10px;">Languages</p></div>
+                </div>
+                <div class="gallery-item" onclick="toggleSlide('projectSlide')">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=400">
+                    <div class="gallery-overlay"><i class="fas fa-project-diagram" style="font-size: 2.5rem;"></i><p style="font-weight: 800; margin-top: 10px;">Projects</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" style="border:none; text-align: center;">
+            <a href="mailto:abhaykp79@gmail.com" class="btn-connect">Connect Now <i class="fas fa-paper-plane"></i></a>
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px;">
+                <a href="https://github.com/haanabhay0" style="color:var(--text-dim); font-size: 1.5rem;"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/abhay-kumar-prajapati-b23068328" style="color:var(--text-dim); font-size: 1.5rem;"><i class="fab fa-linkedin"></i></a>
+                <a href="#" style="color:var(--text-dim); font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+                <a href="https://leetcode.com/u/DaM1PoZCW4/" style="color:var(--leetcode); font-size: 1.5rem;"><i class="fas fa-code"></i></a>
+            </div>
+        </section>
+    </div>
+
+    <div id="certSlide" class="slide-overlay">
+        <div class="close-slide" onclick="toggleSlide('certSlide')"><i class="fas fa-times"></i></div>
+        <div class="container">
+            <h2 style="font-size: 3rem;">Academic Certificates</h2>
+            <div class="detail-card"><div><h3>C++ NATION SKILLUP</h3><p class="dim">GeeksforGeeks</p></div><a href="https://www.geeksforgeeks.org/certificate/22d0658c16a615ec38bbe4066c852a90?utm_source=socials&utm_medium=cc_link">click here <i class="fas fa-link"></i></a></div>
+            <div class="detail-card"><div><h3>Python</h3><p class="dim">GeeksforGeeks</p></div><a href="https://www.geeksforgeeks.org/certificate/f1eb757921d25d9e0f7d1be19517c4af?utm_source=socials&utm_medium=cc_link">click here <i class="fas fa-link"></i></a></div>
+        </div>
+    </div>
+
+    <div id="langSlide" class="slide-overlay">
+        <div class="close-slide" onclick="toggleSlide('langSlide')"><i class="fas fa-times"></i></div>
+        <div class="container">
+            <h2 style="font-size: 3rem;">Technical Languages</h2>
+            <div class="detail-card"><div><h3>Python</h3><p class="tag-pill">Numpy</p><p class="tag-pill">Matplotlib</p><p class="tag-pill">Pandas</p></div><div class="tag-pill">Basic</div></div>
+            <div class="detail-card"><div><h3>C++</h3><p class="dim">Data Structures & Algo</p></div><div class="tag-pill">Newbie</div></div>
+        </div>
+    </div>
+
+    <div id="projectSlide" class="slide-overlay">
+        <div class="close-slide" onclick="toggleSlide('projectSlide')"><i class="fas fa-times"></i></div>
+        <div class="container">
+            <h2 style="font-size: 3rem;">Recent Projects</h2>
+            <!-- <div class="detail-card" style="display: block;">
+                <h3>Neural Network Classifier</h3>
+                <p class="dim" style="margin-top: 10px;">Built a deep learning model to categorize large datasets with 96% accuracy.</p>
+                <div style="margin-top: 15px;"><span class="tag-pill">Python</span><span class="tag-pill">PyTorch</span></div>
+            </div> -->
+        </div>
+    </div>
+
+    <footer style="padding: 40px 0; text-align: center; border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-dim);">
+        &copy; By Abhay Kumar Prajapati
+    </footer>
+
+    <script>
+        const themeBtn = document.getElementById('themeBtn');
+        themeBtn.addEventListener('click', () => {
+            const t = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', t);
+            themeBtn.className = t === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        });
+
+        function toggleSlide(id) {
+            const el = document.getElementById(id);
+            const isActive = el.classList.toggle('active');
+            document.body.style.overflow = isActive ? 'hidden' : 'auto';
+        }
+    </script>
+</body>
+</html>
